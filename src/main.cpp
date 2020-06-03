@@ -27,15 +27,10 @@ inline namespace ns5 {
 }
 
 int main() {
-    typedef std::vector<int> VecT;
-    using VecA = std::vector<int>;
-
     const int x{8};
-    VecT vecT[10];
-    VecA vecA[10];
 
     {
-        const int x = x;
+        const int x = x; // undefined
 
         std::cout << "x = " << x << std::endl;
         std::cout << "::x = " << ::x << std::endl; 
@@ -46,6 +41,27 @@ int main() {
         std::cout << "ns3::x = " << ns3::x << std::endl;
         std::cout << "???::value = " << value() << std::endl; // will be taken from inline namespace
     }
+
+    typedef std::vector<int> VecT;
+    using VecA = std::vector<int>;
+
+    const VecT vecT(5, 20);
+
+    const std::initializer_list<int> initList{100, 200, 300, 400, 500};
+    const VecA vecA{std::move(initList)};
+
+    std::cout << "vecT: ";
+    for (const auto& item : vecT) {
+        std::cout << item << ", ";
+    }
+    std::cout << std::endl;
+
+
+    std::cout << "vecA: ";
+    for (const auto& item : vecA) {
+        std::cout << item << ", ";
+    }
+    std::cout << std::endl;
 
     return 0;
 }
